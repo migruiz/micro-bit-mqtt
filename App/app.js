@@ -22,7 +22,7 @@ const remoteStream = new Observable(async subscriber => {
 
 
   onStream.subscribe(async m => {
-    console.log(JSON.stringify(m));
+    //console.log(JSON.stringify(m));
     (await mqtt.getClusterAsync()).publishMessage('cmnd/tasmota_B6B10E/SerialSend',m.counter.toString());    
     
   })

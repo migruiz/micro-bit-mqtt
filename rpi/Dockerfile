@@ -1,4 +1,4 @@
-FROM balenalib/raspberrypi3-alpine-node:8-latest
+FROM balenalib/raspberrypi3-alpine-node:12-latest
 RUN [ "cross-build-start" ]
 
 
