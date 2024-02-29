@@ -16,14 +16,14 @@ const remoteStream = new Observable(async subscriber => {
 
 
   const onStream = remoteStream.pipe(
-    filter(m=>m.SerialReceived),
+    filter(m=>m.SerialReceived?.type=='mqtt'),
     map(m=>m.SerialReceived)
   )
 
 
   onStream.subscribe(async m => {
     //console.log(JSON.stringify(m));
-    (await mqtt.getClusterAsync()).publishMessage('cmnd/tasmota_B6B10E/SerialSend',m.counter.toString());    
+    (await mqtt.getClusterAsync()).publishMessage(m.topic,m.message);    
     
   })
 //Rule1 ON System#Boot DO BackLog SerialSend1 CONNECTED;  ENDON  
