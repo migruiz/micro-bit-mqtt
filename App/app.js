@@ -12,7 +12,12 @@ const remoteStream = new Observable(async subscriber => {
     });
   });
 
-
+  const carCommandsStream = new Observable(async subscriber => {  
+    var mqttCluster=await mqtt.getClusterAsync()   
+    mqttCluster.subscribeData('microbit', function(content){   
+            subscriber.next(content)
+    });
+  })
 
 
   const onStream = remoteStream.pipe(
@@ -26,6 +31,23 @@ const remoteStream = new Observable(async subscriber => {
     (await mqtt.getClusterAsync()).publishMessage(m.topic,m.message);    
     
   })
+
+  carCommandsStream.subscribe(async m => {
+    console.log(JSON.stringify(m));
+    switch (m.type) {
+      case "MOVE_CAR":
+        
+        break;
+    
+      default:
+        break;
+    }
+    (await mqtt.getClusterAsync()).publishMessage("cmnd/tasmota_B6B10E/SerialSend",m.type);    
+    
+    
+  })
+
+
 //Rule1 ON System#Boot DO BackLog SerialSend1 CONNECTED;  ENDON  
 //Rule1 1
 //SerialSend 1
